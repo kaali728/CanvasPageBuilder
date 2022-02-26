@@ -20,7 +20,7 @@ export default function InhaltsUebersicht() {
           {courses.map((item) => {
             return (
               <div className="vIuCourse" onClick={() => courseClick(item.link)}>
-                item.text
+                {item.text}
               </div>
             );
           })}

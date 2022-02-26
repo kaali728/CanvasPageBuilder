@@ -10,6 +10,7 @@ function InhaltUebersicht() {
     console.log(inhaltsuebersichtstate);
     //TODO: BUG FIX
   }, [inhaltsuebersichtstate]);
+
   const makeNewItem = (e) => {
     setInhaltsuebersicht((prev) => ({
       ...prev,
@@ -17,7 +18,7 @@ function InhaltUebersicht() {
         ...prev.items,
         {
           ImageUrl: "",
-          courses: [...prev.items.courses, { text: "", link: "" }],
+          courses: [{ text: "", link: "" }],
         },
       ],
     }));
@@ -55,15 +56,17 @@ function InhaltUebersicht() {
     e.preventDefault();
   };
 
-  const addChapterText = (e, chapterIndex, index) => {
+  const addChapterText = ({ target: { value, name } }, chapterIndex, index) => {
     let items = [...inhaltsuebersichtstate.items];
+    let item = items[index];
 
-    let item = { ...items[index] };
+    console.log("item ", item);
 
-    let newChapter = [...item.courses];
-    newChapter[chapterIndex].text = e.target.value;
-    item.courses = newChapter;
+    let courses = [...item.courses];
+    let course = courses[chapterIndex];
+    course.text = value;
 
+    item.courses = courses;
     items[index] = item;
     setInhaltsuebersicht((prev) => ({
       ...prev,
@@ -116,7 +119,6 @@ function InhaltUebersicht() {
             <div className="InputWrapper chapterWrapper">
               <div className="cnTimeTitle">Courses</div>
               {courses.map((item, chapterIndex) => {
-                console.log(chapterIndex, item);
                 return (
                   <div key={chapterIndex}>
                     <input
